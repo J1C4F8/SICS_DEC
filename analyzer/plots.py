@@ -30,17 +30,6 @@ sns.set_palette(sns.color_palette("mako_d", 40))
 
 
 def convert_to_reltime(t_lab, los):
-    """
-
-    Parameters
-    ----------
-    t_lab :
-    los :
-
-    Returns
-    -------
-
-    """
     start = t_lab.min()
     t_lab = t_lab - start
     t_lab = t_lab / np.timedelta64(1, 'h')
@@ -51,16 +40,6 @@ def convert_to_reltime(t_lab, los):
 
 
 def plot_raw(studyID):
-    """
-
-    Parameters
-    ----------
-    studyID :
-
-    Returns
-    -------
-
-    """
     sics_raw = extract_sics_raw(studyID)
     sics_raw = sics_raw[["value_name", "Reltime"]]
     sics_raw = sics_raw.sort_values(by=["value_name"])
@@ -76,16 +55,6 @@ def plot_raw(studyID):
 
 
 def plot_raw_vars(studyID):
-    """
-
-    Parameters
-    ----------
-    studyID :
-
-    Returns
-    -------
-
-    """
     sics_raw = extract_sics_raw(studyID)
     sics_raw = sics_raw.sort_values(by=["value_name"])
 
@@ -117,20 +86,6 @@ def plot_raw_vars(studyID):
 
 
 def plot_gaussian(y_pred, y, sigma, X, x2):
-    """
-
-    Parameters
-    ----------
-    y_pred :
-    y :
-    sigma :
-    X :
-    x2 :
-
-    Returns
-    -------
-
-    """
     fig, ax = plt.subplots(figsize=(16, 9), ncols=2, nrows=1)
     print(X, y)
     sns.scatterplot(X, y, ax=ax[0])
@@ -150,16 +105,6 @@ def plot_gaussian(y_pred, y, sigma, X, x2):
 
 
 def plot_loss(history):
-    """
-
-    Parameters
-    ----------
-    history :
-
-    Returns
-    -------
-
-    """
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
     plt.title('model train vs validation loss')
@@ -169,18 +114,6 @@ def plot_loss(history):
 
 
 def plot_clusters(y, prediction, var):
-    """
-
-    Parameters
-    ----------
-    y :
-    prediction :
-    var :
-
-    Returns
-    -------
-
-    """
     print(prediction)
     plt.figure()
     sz = y.shape[1]
@@ -197,16 +130,6 @@ def plot_clusters(y, prediction, var):
 
 
 def extract_sics_raw(studyID):
-    """
-
-    Parameters
-    ----------
-    studyID :
-
-    Returns
-    -------
-
-    """
     sics_raw = read_sics()
     base = read_extra()
     sics_raw = sics_raw[sics_raw["studyID"] == studyID]
@@ -217,34 +140,11 @@ def extract_sics_raw(studyID):
 
 
 def plot_dendrogram(Z):
-    """
-
-    Parameters
-    ----------
-    Z :
-
-    Returns
-    -------
-
-    """
     plt.figure(figsize=(25, 10))
     dendrogram(Z)
 
 
 def plot_mean(X, y, x2, y_pred):
-    """
-
-    Parameters
-    ----------
-    X :
-    y :
-    x2 :
-    y_pred :
-
-    Returns
-    -------
-
-    """
     plt.figure()
     plt.plot(X, y, 'r.', markersize=10, label=u'Observations')
     plt.plot(x2, y_pred, 'b-', label=u'Prediction')
@@ -254,17 +154,6 @@ def plot_mean(X, y, x2, y_pred):
 
 
 def plot_data(x, y):
-    """
-
-    Parameters
-    ----------
-    x :
-    y :
-
-    Returns
-    -------
-
-    """
     plt.plot(x, y, 'bo', label="Ureum")
     plt.xlabel('$time$ $(hours)$')
     plt.ylabel('$value$ $(mmol/L)$')
@@ -273,23 +162,6 @@ def plot_data(x, y):
 
 def plot_confusion_matrix(y_true, y_pred, normalize=False,
                           title=None, cmap='Blues'):
-
-    """
-    This function prints and plots the confusion matrix.
-    Normalization can be applied by setting `normalize=True`.
-
-    Parameters
-    ----------
-    y_true :
-    y_pred :
-    normalize :
-    title :
-    cmap :
-
-    Returns
-    -------
-
-    """
     print(type(y_pred))
     y_true = pd.Categorical(pd.Series(y_true)).rename_categories({0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6}).astype('int64')
     y_pred = pd.Categorical(pd.Series(y_pred)).rename_categories({0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6}).astype('int64')

@@ -6,7 +6,7 @@ FROM continuumio/miniconda:latest
 # Create the environment:
 COPY sics.yml .
 RUN conda env create --file sics.yml
-RUN conda activate SICS-gpu
+RUN conda activate sics-gpu
 
 EXPOSE 8080
 

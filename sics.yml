@@ -1,4 +1,4 @@
-name: SICS-gpu
+name: sics-gpu
 channels:
   - anaconda
   - conda-forge

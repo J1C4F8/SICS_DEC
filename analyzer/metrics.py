@@ -11,17 +11,6 @@ from sklearn.utils.linear_assignment_ import linear_assignment
 
 # compute sensitivity, can be used in Keras evaluation
 def sensitivity(y_true, y_pred):
-    """
-
-    Parameters
-    ----------
-    y_true :
-    y_pred :
-
-    Returns
-    -------
-
-    """
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
     return true_positives / (possible_positives + K.epsilon())
@@ -29,35 +18,12 @@ def sensitivity(y_true, y_pred):
 
 # compute specificity, can be used in Keras evaluation
 def specificity(y_true, y_pred):
-    """
-
-    Parameters
-    ----------
-    y_true :
-    y_pred :
-
-    Returns
-    -------
-
-    """
     true_negatives = K.sum(K.round(K.clip((1 - y_true) * (1 - y_pred), 0, 1)))
     possible_negatives = K.sum(K.round(K.clip(1 - y_true, 0, 1)))
     return true_negatives / (possible_negatives + K.epsilon())
 
 
 def calculate_metrics(loss, y, y_pred):
-    """
-
-    Parameters
-    ----------
-    loss :
-    y :
-    y_pred :
-
-    Returns
-    -------
-
-    """
     nmi = normalized_mutual_info_score
     ari = adjusted_rand_score
     acc = np.round(accuracy(y_true=y, y_pred=y_pred), 5)
@@ -68,17 +34,6 @@ def calculate_metrics(loss, y, y_pred):
 
 
 def accuracy(y_true, y_pred):
-    """
-    Calculate clustering accuracy
-    Parameters
-    ----------
-    y_true : true labels, numpy.array with shape `(n_samples,)`
-    y_pred : predicted labels, numpy.array with shape `(n_samples,)`
-
-    Returns
-    -------
-    accuracy: array with shape [0,1]
-    """
     y_true = y_true.astype(np.int64)
     assert y_pred.size == y_true.size
     D = max(y_pred.max(), y_true.max()) + 1

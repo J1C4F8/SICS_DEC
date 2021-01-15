@@ -85,8 +85,8 @@ def save_results(directory, report, x_test, y_test, trial_no, n_cluster):
     results_df.to_csv(directory + '/results.csv')
 
     # save raw table
-    df = pd.read_csv('../stats/sics.csv', index_col=0)
-    clusters = pd.read_csv('../stats/results_100_clusters_MLP_autoencoder_' + str(n_cluster) + '.csv',
+    df = pd.read_csv('stats/sics.csv', index_col=0)
+    clusters = pd.read_csv('stats/results_100_clusters_MLP_autoencoder_' + str(n_cluster) + '.csv',
                            names=[str(i) for i in range(1, 101)])
     df['cluster'] = clusters[trial_no]
     df.to_csv(directory + '/full_table.csv')
@@ -205,13 +205,13 @@ def prepare_data(df):
 
 
 def clf_stability_analysis(n_cluster):
-    clusters = pd.read_csv('../cluster_stability_results/' + str(n_cluster) + '/cluster_augmented_data_completed.csv',
+    clusters = pd.read_csv('cluster_stability_results/' + str(n_cluster) + '/cluster_augmented_data_completed.csv',
                            index_col=0)
-    df = pd.read_csv('../stats/sics.csv', index_col=0)
+    df = pd.read_csv('stats/sics.csv', index_col=0)
 
     # Specifying directory
     directory_name = 'results'
-    directory = '../' + directory_name + '/' + str(n_cluster)
+    directory = directory_name + '/' + str(n_cluster)
     columns, preprocessed_df = prepare_data(df)
 
     max_acc = 0.5

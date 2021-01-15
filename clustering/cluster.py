@@ -5,18 +5,16 @@ import random
 
 import numpy as np
 import scipy.spatial.distance as ssd
-from keras import regularizers, Sequential
-from keras.layers import Dense, Dropout
+from keras import regularizers
+from keras.layers import Dense
 from keras.layers import Input
 from keras.models import Model
 from keras.optimizers import SGD
 from sklearn.cluster import AgglomerativeClustering, KMeans
-from sklearn.metrics import classification_report
 from tslearn.metrics import cdist_dtw
 from tslearn.utils import to_time_series, to_time_series_dataset
 
 from analyzer.metrics import calculate_metrics
-from analyzer.plots import plot_confusion_matrix, plot_loss
 from preprocessing.gen_input import get_gaussian, select_data
 from preprocessing.variables import variables
 

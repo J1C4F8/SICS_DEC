@@ -1,6 +1,5 @@
 import argparse
-import os
-import pandas as pd
+
 import numpy as np
 
 from analyzer.evaluation import determine_cluster_size
@@ -14,7 +13,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Clustering options")
     parser.add_argument('--internal_validation', default=True, help='True or False')
     parser.add_argument('--external_validation', default=True, help='True or False')
-    parser.add_argument('--exp_name', help='exp name')
+    parser.add_argument('--exp_name', help='Experiment name (string)')
     args = parser.parse_args()
 
     internal_val = args.internal_validation
@@ -33,6 +32,7 @@ if __name__ == '__main__':
     ]
     dtw_on = False
     for model in models:
+        print('[INFO] Clustering using {}...'.format(model[3]))
         # if using optimal cluster sizes:
         if dtw_on is True:
             distance = dtw_m if model[2] == 'precomputed' else None
@@ -42,20 +42,23 @@ if __name__ == '__main__':
 
         for n_cluster in n_clusters:
             y_pred = model[0](model[1], n_cluster)
-
+            print(y_pred.shape)
             descriptives["cluster"] = y_pred
             descriptives.to_csv(
-                '../stats/descriptives_cluster_val_cat' + str(model[0].__name__) + '_' + str(n_cluster) + '.csv',
+                'stats/descriptives_cluster_val_cat' + str(model[0].__name__) + '_' + str(n_cluster) + '.csv',
                 index=False)
             print(descriptives['cluster'].value_counts())
             print(model[3])
 
-            if internal_val is True:
+            if internal_val is True and model[3] == 'MLP':
+                print('[INFO] Performing internal validation...')
+
                 n_trials = 1000
                 cluster_results = np.empty([features.shape[0], n_trials])
-                cluster_results_proba = np.empty([features.shape[0], n_clusters, n_trials])
-                print("size results: " + str(np.size(cluster_results)))
-                validate_clustering(features, models)
+                cluster_results_proba = np.empty([features.shape[0], n_cluster, n_trials])
+                print("Size results: " + str(np.size(cluster_results)))
+                validate_clustering(features, model, n_cluster)
 
             if external_val is True:
+                print('[INFO] Performing external validation...')
                 clf_stability_analysis(n_cluster)
